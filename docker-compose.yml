@@ -2,7 +2,7 @@ version: '2'
 services:
   master:
     container_name: master
-    image: polinux/postgres-bdr
+    image: laybatin/postgresql-bdr
     restart: always
     hostname: master
     environment:
@@ -10,11 +10,14 @@ services:
       POSTGRES_USER: admin
       POSTGRES_DB: mydb
       MODE: master
+      MASTER_ADDRESS: 192.168.2.189
       MASTER_PORT: 5432
+    ports:
+        - "5432:5432"
 
   slave1:
     container_name: slave1
-    image: polinux/postgres-bdr
+    image: laybatin/postgresql-bdr
     restart: always
     hostname: slave1
     environment:
@@ -22,15 +25,16 @@ services:
       POSTGRES_USER: admin
       POSTGRES_DB: mydb
       MODE: slave
-      MASTER_ADDRESS: master_ip
+      MASTER_ADDRESS: 192.168.2.189
       MASTER_PORT: 5432
+      SLAVE_ADDRESS: 192.168.2.188
       SLAVE_PORT: 5432
-    external_links:
-      - master:master_ip
+    ports:
+        - "5432:5432"
 
   slave2:
     container_name: slave2
-    image: polinux/postgres-bdr
+    image: laybatin/postgresql-bdr
     restart: always
     hostname: slave2
     environment:
@@ -38,8 +42,9 @@ services:
       POSTGRES_USER: admin
       POSTGRES_DB: mydb
       MODE: slave
-      MASTER_ADDRESS: master_ip
+      MASTER_ADDRESS: 192.168.2.189
       MASTER_PORT: 5432
+      SLAVE_ADDRESS: 192.168.2.188
       SLAVE_PORT: 5432
-    external_links:
-      - master:master_ip
+    ports:
+        - "5432:5432"
