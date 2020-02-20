@@ -27,7 +27,7 @@ if [ $MODE == 'master' ]; then
   psql $POSTGRES_DB -U $POSTGRES_USER -p $POSTGRES_PORT -c "CREATE EXTENSION IF NOT EXISTS bdr;"
   psql $POSTGRES_DB -U $POSTGRES_USER -p $POSTGRES_PORT -c "SELECT bdr.bdr_group_create(
     local_node_name := '${HOSTNAME}',
-    node_external_dsn := 'host=${HOSTNAME} port=${MASTER_PORT} dbname=${POSTGRES_DB} user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}'
+    node_external_dsn := 'host=${MASTER_ADDRESS} port=${MASTER_PORT} dbname=${POSTGRES_DB} user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}'
   );"
   psql $POSTGRES_DB -U $POSTGRES_USER -p $POSTGRES_PORT -c "SELECT bdr.bdr_node_join_wait_for_ready();"
   message
@@ -40,7 +40,7 @@ elif [ $MODE == 'slave' ]; then
   psql $POSTGRES_DB -U $POSTGRES_USER -p $POSTGRES_PORT -c "CREATE EXTENSION IF NOT EXISTS bdr;"
   psql $POSTGRES_DB -U $POSTGRES_USER -p $POSTGRES_PORT -c "SELECT bdr.bdr_group_join(
     local_node_name := '${HOSTNAME}',
-    node_external_dsn := 'host=${HOSTNAME} port=${SLAVE_PORT} dbname=${POSTGRES_DB} user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}',
+    node_external_dsn := 'host=${SLAVE_ADDRESS} port=${SLAVE_PORT} dbname=${POSTGRES_DB} user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}',
     join_using_dsn := 'host=${MASTER_ADDRESS} port=${MASTER_PORT} dbname=${POSTGRES_DB} user=${POSTGRES_USER} password=${POSTGRES_PASSWORD}'
   );"
   psql $POSTGRES_DB -U $POSTGRES_USER -p $POSTGRES_PORT -c "SELECT bdr.bdr_node_join_wait_for_ready();"
