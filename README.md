@@ -26,6 +26,7 @@ User can specify if database should work as `stand-alone` or `master/slave` mode
 |`MODE`|Mode in which this image shoudl work. Options: `single/master/slave` (default=single)|
 |`MASTER_ADDRESS`|Address of master node|
 |`MASTER_PORT`|Master node port|
+|`SLAVE_ADDRESS`| Address of Slave node|
 |`SLAVE_PORT`|Slave node port|
 
 
@@ -37,7 +38,7 @@ User can specify if database should work as `stand-alone` or `master/slave` mode
       -d \
       --name postgres \
       -p 5432:5432 \
-      polinux/postgres-bdr
+      laybatin/postgres-bdr
 
 #### Master + 2 slaves
 
